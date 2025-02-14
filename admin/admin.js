@@ -25,8 +25,8 @@ mongoose
 
     exports.addAdmin = async (req,res) => {
         try {
-          const addAdmin = req.params.number
-          const admin = await Admin.findOne({addAdmin})
+          const phoneNumber = req.params.number
+          const admin = await Admin.findOne({phoneNumber})
           if (admin) {
             return res.json({massage: "admin is in database"})
           }

@@ -16,7 +16,8 @@ const web = new mongoose.Schema({
    wahtsapp: String,
    poshtibani: String,
    timeCall: String,
-   monyDavat: Number
+   monyDavat: Number,
+   postMoney: Number
 })
 
 const Web = mongoose.model('web', web)
@@ -47,7 +48,8 @@ exports.addInformation = async (req,res) => {
             wahtsapp: "",
             poshtibani: "",
             timeCall: "",
-            monyDavat: 0
+            monyDavat: 0,
+            postMoney: 0
           })
 
           const result = await newWeb.save()

@@ -1,4 +1,5 @@
 const express = require('express');
+const { default: axios } = require('axios')
 const security = require('./security'); 
 const app = express()
 app.use((req,res,next)=>{
@@ -13,13 +14,34 @@ app.use(express.json());
 security(app);
 
 const SendSmsRoute = require('./Signup/RsendSMS')
-app.use("/api/register", SendSmsRoute)
+app.use("/api/register/sms", SendSmsRoute)
 
 const Admin = require('./admin/Radmin')
 app.use("/api/admin", Admin)
 
 const webData = require('./webInformation/RwebInformation')
 app.use("/api/webdata", webData)
+
+const users = require('./user/Ruser')
+app.use("/api/register/user", users)
+
+const categori = require("./categori/Rcategori")
+app.use("/api/categori", categori)
+
+const stayInCall = require("./stayInCall/RstayInCall")
+app.use("/api/stayincall", stayInCall)
+
+const basket = require("./basket/Rbasket")
+app.use('/api/basket', basket)
+
+const kala = require("./kala/Rkala")
+app.use("/api/Kala", kala)
+
+const giftCode = require('./giftCode/Rgiftcode')
+app.use("/api/Gitcode", giftCode)
+
+const offerCode = require('./offerCode/Roffer')
+app.use("/api/Offercode", offerCode)
 
 
 
