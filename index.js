@@ -13,6 +13,10 @@ app.use((req,res,next)=>{
 app.use(express.json());
 security(app);
 
+res.json({
+  data: "hello vps"
+})
+
 const SendSmsRoute = require('./Signup/RsendSMS')
 app.use("/api/register/sms", SendSmsRoute)
 
@@ -43,6 +47,7 @@ app.use("/api/Gitcode", giftCode)
 const offerCode = require('./offerCode/Roffer')
 app.use("/api/Offercode", offerCode)
 
+//x5TpYwZ3g9RfZa
 
 
 const PORT = process.env.PORT || 3001;

@@ -88,7 +88,7 @@ exports.updateInformation = async (req,res) => {
 
       res.json({update})
 
-
+// git@github.com:amir-nf713/janebiBackend.git   vPU%8n+mvN!a
 
         
     } catch (error) {
