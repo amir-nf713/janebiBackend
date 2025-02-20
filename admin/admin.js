@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose
-   .connect("mongodb://localhost:27017/Admin")
+   .connect("mongodb://localhost:27017/Savecode")
    .then(() => console.log("connect to Admin"))
    .catch(() => console.log("cant connect to Admin"))
 

@@ -4,7 +4,7 @@ const { default: axios } = require("axios");
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost:27017/User")
+  .connect("mongodb://localhost:27017/Savecode")
   .then(() => console.log("connect to User"))
   .catch(() => console.log("cant connect to User"));
 

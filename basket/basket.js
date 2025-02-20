@@ -3,7 +3,7 @@ const jalaali = require("jalaali-js")
 const { toJalaali } = require('jalaali-js');
 
 mongoose
-  .connect("mongodb://localhost:27017/basket")
+  .connect("mongodb://localhost:27017/Savecode")
   .then(() => console.log("connect to basket"))
   .catch(() => console.log("cant connect to basket"));
 

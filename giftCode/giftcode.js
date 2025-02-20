@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost:27017/giftCode")
+  .connect("mongodb://localhost:27017/Savecode")
   .then(() => console.log("connect to giftCode"))
   .catch(() => console.log("cant connect to giftCode"));
 

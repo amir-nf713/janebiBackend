@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 
 mongoose
-   .connect("mongodb://localhost:27017/Webinformation")
+   .connect("mongodb://localhost:27017/Savecode")
    .then(()=> console.log("connected to Webinformation"))
    .catch(()=> console.log("cant connected to Webinformation"))
 
@@ -88,7 +88,6 @@ exports.updateInformation = async (req,res) => {
 
       res.json({update})
 
-// git@github.com:amir-nf713/janebiBackend.git   vPU%8n+mvN!a
 
         
     } catch (error) {
