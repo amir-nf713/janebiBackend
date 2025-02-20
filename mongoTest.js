@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // تنظیم پورت
-const PORT = 3001;
+const PORT = 3002;
 
 // استفاده از middleware برای تجزیه JSON
 app.use(express.json());
