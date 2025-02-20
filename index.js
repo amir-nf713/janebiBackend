@@ -14,8 +14,8 @@ app.use(express.json());
 security(app);
 
 
-const SendSmsRoute = require('./Signup/RsendSMS')
-app.use("/api/register/sms", SendSmsRoute)
+// const SendSmsRoute = require('./Signup/RsendSMS')
+// app.use("/api/register/sms", SendSmsRoute)
 
 const Admin = require('./admin/Radmin')
 app.use("/api/admin", Admin)

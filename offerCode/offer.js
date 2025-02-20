@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://172.17.0.2:27017/offercode",{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb://localhost:27017/offercode")
   .then(() => console.log("connect to offercode"))
   .catch(() => console.log("cant connect to offercode"));
 
