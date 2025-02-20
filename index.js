@@ -14,6 +14,11 @@ app.use(express.json());
 security(app);
 
 
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Backend is working!' });
+});
+
+
 const SendSmsRoute = require('./Signup/RsendSMS')
 app.use("/api/register/sms", SendSmsRoute)
 
