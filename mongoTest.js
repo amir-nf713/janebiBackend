@@ -1,4 +1,14 @@
+const express = require('express');
 const mongoose = require('mongoose');
+
+// ایجاد اپلیکیشن Express
+const app = express();
+
+// تنظیم پورت
+const PORT = 3001;
+
+// استفاده از middleware برای تجزیه JSON
+app.use(express.json());
 
 // اتصال به MongoDB
 mongoose
@@ -18,22 +28,39 @@ const testSchema = new mongoose.Schema({
 // مدل برای ذخیره اطلاعات
 const TestModel = mongoose.model('Test', testSchema);
 
-// تابع تست ذخیره‌سازی اطلاعات
-const testSave = async () => {
+// API برای اضافه کردن داده به دیتابیس
+app.post('/api/test', async (req, res) => {
+  const { name, phoneNumber } = req.body;
+
+  if (!name || !phoneNumber) {
+    return res.status(400).json({ message: 'Name and phone number are required' });
+  }
+
   try {
-    // داده برای ذخیره‌سازی
-    const testData = new TestModel({
-      name: 'John Doe',
-      phoneNumber: '09336230914'
-    });
+    // داده جدید برای ذخیره‌سازی
+    const testData = new TestModel({ name, phoneNumber });
 
     // ذخیره داده در دیتابیس
     const result = await testData.save();
-    console.log("Data saved successfully:", result);
+    res.status(201).json({ message: 'Data saved successfully', data: result });
   } catch (error) {
-    console.error("Error saving data:", error);
+    console.error('Error saving data:', error);
+    res.status(500).json({ message: 'Error saving data', error: error.message });
   }
-};
+});
 
-// اجرا کردن تابع تست
-testSave();
+// API برای گرفتن تمام داده‌ها از دیتابیس
+app.get('/api/test', async (req, res) => {
+  try {
+    const data = await TestModel.find();
+    res.status(200).json({ data });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: 'Error fetching data', error: error.message });
+  }
+});
+
+// راه‌اندازی سرور
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
