@@ -1,7 +1,13 @@
 const express = require('express');
 const { default: axios } = require('axios')
-const security = require('./security'); 
+const bodyParser = require('body-parser');
 const app = express()
+
+// تنظیم حجم محدودیت درخواست
+app.use(bodyParser.json({ limit: '10mb' })); // اینجا حجم درخواست را به 10MB تنظیم می‌کنیم.
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+ 
+
 app.use((req,res,next)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -11,7 +17,10 @@ app.use((req,res,next)=>{
   })
   
 app.use(express.json());
-security(app);
+const cors = require("cors");
+app.use(cors());
+
+
 
 
 
@@ -45,7 +54,6 @@ app.use("/api/Gitcode", giftCode)
 const offerCode = require('./offerCode/Roffer')
 app.use("/api/Offercode", offerCode)
 
-//x5TpYwZ3g9RfZa
 
 
 const PORT = process.env.PORT || 3001;

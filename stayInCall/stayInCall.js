@@ -17,17 +17,18 @@ const stayincall = new mongoose.Schema({
 
 const Stayincall = mongoose.model('stayincall', stayincall)
 
-exports.getallstayincall = async (req,res) => {
+exports.getallstayincall = async (req, res) => {
     try {
-        res.json({
-            data: await Stayincall.find()
-        })
+        const data = await Stayincall.find().sort({ _id: -1 }); // مرتب‌سازی بر اساس ObjectId برای جدیدترین‌ها
+        res.status(200).json({ data });
     } catch (error) {
-        res.json({
-            massage: "you have err"
-        })   
+        console.error(error); // برای دیباگ کردن خطا در کنسول
+        res.status(500).json({
+            message: "An error occurred while fetching data.",
+            error: error.message
+        });
     }
-}
+};
 
 exports.postallstayincall = async (req,res) => {
     try {

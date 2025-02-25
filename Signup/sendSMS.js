@@ -13,12 +13,12 @@ mongoose
 
 const seveCode = new mongoose.Schema({
     number : String,
-    code : Number
+    code : String
 })
 
 const SaveCode = mongoose.model('savecode', seveCode)
 
-exports.senSMS = async (req, res) => {
+exports.sendSMS = async (req, res) => {
     
     const randomCode = Math.floor(Math.random() * 90000) + 10000;
     
@@ -28,7 +28,7 @@ exports.senSMS = async (req, res) => {
     }
     
     const sendSmsInformation = {
-        "formNum" : "30005112",
+        "formNum" : "9981801159",
         "toNum" : [number],
         "content" : `اسپیدی عزیز خوش آمدی
          کد ورود شما : ${randomCode}
@@ -58,16 +58,25 @@ exports.senSMS = async (req, res) => {
         const savecode = await savecodee.save()
 
         const ID = savecode._id
+        console.log(ID);
+        
 
-        setInterval(async () => {
-            const findId = await SaveCode.findOne(ID)
-            if (!findId) {
-                return res.json({ massage : "cant find code"})
-            }
-
-            const deletCode = await SaveCode.deleteOne({_id : ID})
-            if (!deletCode) {
-                return res.json({ massage : "cant delete code"})
+        const int = setInterval(async () => {
+            try {
+                const findId = await SaveCode.findOne({ _id: ID }); // اصلاح این قسمت
+                if (!findId) {
+                    console.log("کد پیدا نشد، حذف متوقف شد.");
+                    clearInterval(int);
+                    return;
+                }
+        
+                await SaveCode.deleteOne({ _id: ID }); // حذف رکورد از دیتابیس
+                console.log("کد با موفقیت حذف شد.");
+        
+                clearInterval(int); // حالا که حذف انجام شد، Interval رو متوقف می‌کنیم
+            } catch (error) {
+                console.error("خطا در حذف کد:", error);
+                clearInterval(int); // در صورت بروز خطا هم Interval متوقف بشه
             }
         }, 120000);
 

@@ -30,6 +30,26 @@ exports.getAdmin = async (req, res) => {
   }
 };
 
+exports.getOneAdmin = async (req, res) => {
+  try {
+    const phoneNumber = req.params.num
+    const admins = await Admin.findOne({phoneNumber});
+    if (!admins) {
+      return res.json({ massage: "cant find admins" });
+    }
+    res.json({
+      login: "true",
+      data: admins
+    });
+  } catch (error) {
+    console.error("Error fetching admins:", error); // لاگ کردن خطا
+    res.status(500).json({
+      message: "There was an error fetching admins",
+      error: error.message
+    });
+  }
+};
+
 // اضافه کردن ادمین جدید به دیتابیس
 exports.addAdmin = async (req, res) => {
   try {

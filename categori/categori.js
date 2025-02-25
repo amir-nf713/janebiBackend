@@ -55,13 +55,13 @@ exports.postcategori = async (req, res) => {
 
 exports.deletecategori = async (req,res) => {
     try {
-        const shenase = req.params.shenase
-        const findCategori = await Catergori.findOne({ shenase })
+        const _id = req.params.id
+        const findCategori = await Catergori.findOne({ _id })
         if (!findCategori) {
           return res.json({ massage : "cant find categori"})   
         }
 
-        const deletecategori = await Catergori.deleteOne({ shenase })
+        const deletecategori = await Catergori.deleteOne({ _id })
         res.json({
             data: deletecategori
         })

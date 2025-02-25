@@ -25,12 +25,28 @@ const basket = new mongoose.Schema({
 const Basket = mongoose.model("basket", basket);
 
 
+exports.getOneBasket = async (req,res) => {
+  try {
 
+    const _id = req.params.id
+    const basket = await Basket.findOne({_id})
+    if (!basket) {
+      return res.json({ message : "basket not found"})
+     }
+    res.json({
+      data: basket
+    })
+  } catch (error) {
+    res.json({
+      massage: "you have err",
+    });
+  }
+}
 
 exports.getBasket = async (req,res) => {
   try {
     res.json({
-      date: await Basket.find()
+      data: await Basket.find()
     })
   } catch (error) {
     res.json({

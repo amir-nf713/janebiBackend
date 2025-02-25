@@ -10,9 +10,10 @@ mongoose
 
 const userSchema = new mongoose.Schema({
   phoneNumber: { type: String, unique: true },
+  Name: String,
   codeGift: { type: [String], default: [] },
   cash: { type: Number, default: 0 },
-  codeDavat: { type: String, unique: true },
+  codeDavat: String 
 });
 
 const User = mongoose.model("user", userSchema);
@@ -38,7 +39,28 @@ exports.getOneUser = async (req, res) => {
     }
 
     res.json({
-      data: user,
+      login: "true",
+      data: user
+    });
+  } catch (error) {
+    res.json({
+      massage: "you have err",
+    });
+  }
+};
+
+
+exports.getOneUserId = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.findOne({ _id });
+    if (!user) {
+      return res.json({ massage: "cant find user" });
+    }
+
+    res.json({
+      login: "true",
+      data: user
     });
   } catch (error) {
     res.json({
@@ -78,8 +100,9 @@ exports.postUser = async (req, res) => {
 
     const saveUser = new User({
       phoneNumber: number,
-      codeDavat: (await User.countDocuments()) + 1000,
+      codeDavat: await User.countDocuments() + 1000,
       codeGift: [],
+      Name: "",
       cash: 0,
     });
 
@@ -88,7 +111,11 @@ exports.postUser = async (req, res) => {
       data: result,
     });
   } catch (error) {
+    console.error(error);
+    
     res.json({
+      
+      
       massage: "you have err",
     });
   }
@@ -155,8 +182,8 @@ exports.updateCodeGift = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const phoneNumber = req.params.num;
-    const findUser = await User.findOne({ phoneNumber });
+    const _id = req.params.id;
+    const findUser = await User.findOne({ _id });
     if (!findUser) {
       return res.json({ massage: "user not found" });
     }
@@ -223,7 +250,7 @@ exports.postMessage = async (req, res) => {
 
     // اطلاعات ارسال پیام
     const sendSmsInformation = {
-      formNum: "30005112",
+      formNum: "9981801159",
       toNum: alluser, // باید به صورت آرایه از شماره‌ها باشد
       content: `
             ${message}
