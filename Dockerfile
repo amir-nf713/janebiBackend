@@ -4,15 +4,15 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Expose application port
-EXPOSE 3000
+# Expose port for Express server
+EXPOSE 3001
 
-# Start application
+# Start the Express application
 CMD ["npm", "start"]
