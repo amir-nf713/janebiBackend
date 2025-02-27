@@ -4,11 +4,13 @@ const mongoose = require('mongoose')
 
 const wsdlUrl = 'http://87.248.137.75/webservice/send.php?wsdl';
 
-mongoose
-  .connect("mongodb://mongodb:27017/Savecode")
+mongoose.connect('mongodb://mongodb:27017/Savecode', {
+    serverSelectionTimeoutMS: 300000,  // افزایش تایم‌اوت انتخاب سرور به 5 دقیقه (300000 میلی‌ثانیه)
+    socketTimeoutMS: 300000,           // افزایش تایم‌اوت سوکت به 5 دقیقه (300000 میلی‌ثانیه)
+  })
   .then(() => console.log("connected to savecode"))
-  .catch((err) => console.error("cant connected to savecode", err));
-
+  .catch(err => console.log("can't connect to savecode:", err));
+  
 
 
 const seveCode = new mongoose.Schema({

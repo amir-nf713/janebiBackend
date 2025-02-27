@@ -3,10 +3,12 @@ const wsdlUrl = "http://87.248.137.75/webservice/send.php?wsdl";
 const { default: axios } = require("axios");
 const mongoose = require("mongoose");
 
-mongoose
-  .connect("mongodb://mongodb:27017/Savecode")
-  .then(() => console.log("connected to savecode"))
-  .catch((err) => console.error("cant connected to savecode", err));
+mongoose.connect('mongodb://mongodb:27017/Savecode', {
+  serverSelectionTimeoutMS: 300000,  // افزایش تایم‌اوت انتخاب سرور به 5 دقیقه (300000 میلی‌ثانیه)
+  socketTimeoutMS: 300000,           // افزایش تایم‌اوت سوکت به 5 دقیقه (300000 میلی‌ثانیه)
+})
+.then(() => console.log("connected to savecode"))
+.catch(err => console.log("can't connect to savecode:", err));
 
 const userSchema = new mongoose.Schema({
   phoneNumber: { type: String, unique: true },

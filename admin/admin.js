@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 
 // اتصال به MongoDB با استفاده از گزینه‌های جدید
-mongoose
-  .connect("mongodb://localhost:27017/Savecode", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
+mongoose.connect('mongodb://mongodb:27017/Savecode', {
+  serverSelectionTimeoutMS: 300000,  // افزایش تایم‌اوت انتخاب سرور به 5 دقیقه (300000 میلی‌ثانیه)
+  socketTimeoutMS: 300000,           // افزایش تایم‌اوت سوکت به 5 دقیقه (300000 میلی‌ثانیه)
+})
+.then(() => console.log("connected to savecode"))
+.catch(err => console.log("can't connect to savecode:", err));
 
 // تعریف اسکیمای ادمین
 const adminSchema = new mongoose.Schema({
