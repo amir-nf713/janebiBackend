@@ -2,9 +2,10 @@ const mongoose = require('mongoose')
 
 
 mongoose
-   .connect("mongodb://localhost:27017/Savecode")
-   .then(()=> console.log("connected to stayincall"))
-   .catch(()=> console.log("cant connected to stayincall"))
+  .connect("mongodb://mongodb:27017/Savecode")
+  .then(() => console.log("connected to savecode"))
+  .catch((err) => console.error("cant connected to savecode", err));
+
 
 
 

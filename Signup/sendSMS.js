@@ -5,9 +5,9 @@ const mongoose = require('mongoose')
 const wsdlUrl = 'http://87.248.137.75/webservice/send.php?wsdl';
 
 mongoose
-   .connect("mongodb://mongodb:27017/Savecode")
-   .then(()=> console.log("connected to savecode"))
-   .catch(()=> console.log("cant connected to savecode"))
+  .connect("mongodb://mongodb:27017/Savecode")
+  .then(() => console.log("connected to savecode"))
+  .catch((err) => console.error("cant connected to savecode", err));
 
 
 

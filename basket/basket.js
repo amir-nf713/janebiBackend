@@ -3,9 +3,10 @@ const jalaali = require("jalaali-js")
 const { toJalaali } = require('jalaali-js');
 
 mongoose
-  .connect("mongodb://localhost:27017/Savecode")
-  .then(() => console.log("connect to basket"))
-  .catch(() => console.log("cant connect to basket"));
+  .connect("mongodb://mongodb:27017/Savecode")
+  .then(() => console.log("connected to savecode"))
+  .catch((err) => console.error("cant connected to savecode", err));
+
 
 const basket = new mongoose.Schema({
   value: {type : Array, default: []} ,

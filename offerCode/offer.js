@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost:27017/Savecode")
-  .then(() => console.log("connect to offercode"))
-  .catch(() => console.log("cant connect to offercode"));
+  .connect("mongodb://mongodb:27017/Savecode")
+  .then(() => console.log("connected to savecode"))
+  .catch((err) => console.error("cant connected to savecode", err));
+
 
 const offercode = new mongoose.Schema({
   code: String,

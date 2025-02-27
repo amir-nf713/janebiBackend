@@ -4,9 +4,9 @@ const { default: axios } = require("axios");
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost:27017/Savecode")
-  .then(() => console.log("connect to User"))
-  .catch(() => console.log("cant connect to User"));
+  .connect("mongodb://mongodb:27017/Savecode")
+  .then(() => console.log("connected to savecode"))
+  .catch((err) => console.error("cant connected to savecode", err));
 
 const userSchema = new mongoose.Schema({
   phoneNumber: { type: String, unique: true },
