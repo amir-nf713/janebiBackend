@@ -5,6 +5,7 @@ const adminRouter = require("./admin")
 
 
 router.get("/", adminRouter.getAdmin)
+router.post("/:ky", adminRouter.getkeyAdmin)
 router.get("/:num", adminRouter.getOneAdmin)
 router.get('/add/admin/to/data/base/:number', adminRouter.addAdmin)
 

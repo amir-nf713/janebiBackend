@@ -59,10 +59,13 @@ exports.postBasket = async (req,res) => {
   try {
     const { value, name, shahr, ostan, phoneNumber, address, postCode, userId, money } = req.body;
 
-    // بررسی ورودی‌ها
-    if (!value || !name || !shahr || !ostan || !phoneNumber || !address || !postCode || !userId || !money) {
-      return res.status(400).json({ message: "تمامی فیلدها باید پر شوند." });
-    }
+    // console.log("Request Body:", req.body);
+
+    // // بررسی ورودی‌ها
+    // if (!value || !name || !shahr || !ostan || !phoneNumber || !address || !postCode || !userId || !money) {
+    //   return res.status(400).json({ message: "تمامی فیلدها باید پر شوند." });
+    // }
+    
 
     // دریافت تاریخ شمسی
     let today = new Date();

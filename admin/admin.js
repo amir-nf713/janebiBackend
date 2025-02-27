@@ -85,3 +85,22 @@ exports.addAdmin = async (req, res) => {
     });
   }
 };
+
+exports.getkeyAdmin = async (req, res) => {
+  try {
+
+    const key = "Alireza12380@@jhd"
+    const keyOk = req.params.ky
+    if (
+       keyOk=== key
+    ) {
+      res.json({
+      data: "ok"
+    });
+    }
+    
+    
+  } catch (error) {
+     res.json({m : "err"})
+  }
+};
