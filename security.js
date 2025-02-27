@@ -15,7 +15,7 @@ module.exports = (app) => {
 
   // تنظیمات CORS
   const corsOptions = {
-    origin: '*', // دامنه مجاز
+    origin: 'janebi-speed.ir', // دامنه مجاز
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   };
   app.use(cors(corsOptions));
