@@ -13,10 +13,12 @@ mongoose.connect('mongodb://mongodb:27017/Savecode', {
   
 
 
-const seveCode = new mongoose.Schema({
-    number : String,
-    code : String
-})
+  const seveCode = new mongoose.Schema({
+    number: String,
+    code: String,
+    expiresAt: { type: Date, default: Date.now, index: { expires: '2m' } }
+});
+
 
 const SaveCode = mongoose.model('savecode', seveCode)
 
@@ -61,26 +63,7 @@ exports.sendSMS = async (req, res) => {
 
         const ID = savecode._id
         console.log(ID);
-        
 
-        const int = setInterval(async () => {
-            try {
-                const findId = await SaveCode.findOne({ _id: ID }); // اصلاح این قسمت
-                if (!findId) {
-                    console.log("کد پیدا نشد، حذف متوقف شد.");
-                    clearInterval(int);
-                    return;
-                }
-        
-                await SaveCode.deleteOne({ _id: ID }); // حذف رکورد از دیتابیس
-                console.log("کد با موفقیت حذف شد.");
-        
-                clearInterval(int); // حالا که حذف انجام شد، Interval رو متوقف می‌کنیم
-            } catch (error) {
-                console.error("خطا در حذف کد:", error);
-                clearInterval(int); // در صورت بروز خطا هم Interval متوقف بشه
-            }
-        }, 120000);
 
 
         res.json({
