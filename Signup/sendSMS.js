@@ -1,82 +1,66 @@
 const soap = require('soap');
-const mongoose = require('mongoose')
-
+const mongoose = require('mongoose');
 
 const wsdlUrl = 'http://87.248.137.75/webservice/send.php?wsdl';
 
 mongoose.connect('mongodb://mongodb:27017/Savecode', {
-    serverSelectionTimeoutMS: 300000,  // افزایش تایم‌اوت انتخاب سرور به 5 دقیقه (300000 میلی‌ثانیه)
-    socketTimeoutMS: 300000,           // افزایش تایم‌اوت سوکت به 5 دقیقه (300000 میلی‌ثانیه)
-  })
+  serverSelectionTimeoutMS: 600000,  // افزایش تایم‌اوت انتخاب سرور به ۱۰ دقیقه
+  socketTimeoutMS: 600000,          // افزایش تایم‌اوت سوکت به ۱۰ دقیقه
+})
   .then(() => console.log("connected to savecode"))
   .catch(err => console.log("can't connect to savecode:", err));
-  
 
-
-  const seveCode = new mongoose.Schema({
-    number: String,
-    code: String,
-    expiresAt: { type: Date, default: Date.now, index: { expires: '2m' } }
+const seveCode = new mongoose.Schema({
+  number: String,
+  code: String,
+  expiresAt: { type: Date, default: Date.now, index: { expires: '2m' } }
 });
 
-
-const SaveCode = mongoose.model('savecode', seveCode)
+const SaveCode = mongoose.model('savecode', seveCode);
 
 exports.sendSMS = async (req, res) => {
-    
-    const randomCode = Math.floor(Math.random() * 90000) + 10000;
-    
-    const {number} = req.body;
-    if (number.length !== 11) {
-        res.json({massage: "number fild err"})
-    }
-    
-    const sendSmsInformation = {
-        "formNum" : "9981801159",
-        "toNum" : [number],
-        "content" : `اسپیدی عزیز خوش آمدی
-         کد ورود شما : ${randomCode}
-         لغو11
-        `,
-        "type" : "1",
-        "username" : "alirezamahmooudi94",
-        "password" : "2981228935"
-    }
+  const randomCode = Math.floor(Math.random() * 90000) + 10000;
+  const { number } = req.body;
 
-    try {
-        // ایجاد کلاینت SOAP
-        const client = await soap.createClientAsync(wsdlUrl);
+  if (number.length !== 11) {
+    return res.json({ massage: "number field err" });
+  }
 
-        // فراخوانی متد SendSMS
-        const result = await client.SendSMSAsync(sendSmsInformation);
+  const sendSmsInformation = {
+    formNum: "9981801159",
+    toNum: [number],
+    content: `اسپیدی عزیز خوش آمدی
+      کد ورود شما : ${randomCode}
+      لغو11
+    `,
+    type: "1",
+    username: "alirezamahmooudi94",
+    password: "2981228935"
+  };
 
-        // ارسال نتیجه به کلاینت
-          
+  try {
+    // ایجاد کلاینت SOAP
+    const client = await soap.createClientAsync(wsdlUrl);
 
-        const savecodee = new SaveCode({
-           number : number,
-           code : randomCode         
-        })
-        
+    // فراخوانی متد SendSMS
+    const result = await client.SendSMSAsync(sendSmsInformation);
 
-        const savecode = await savecodee.save()
+    // ذخیره‌سازی کد در MongoDB
+    const savecodee = new SaveCode({
+      number: number,
+      code: randomCode,
+    });
+    const savecode = await savecodee.save();
+    const ID = savecode._id;
+    console.log(ID);
 
-        const ID = savecode._id
-        console.log(ID);
-
-
-
-        res.json({
-          result : result,
-          data  : savecode,
-          massage: "Done successfully"
-        })
-    } catch (err) {
-        // مدیریت خطا
-        console.error('خطا در ارسال پیامک:', err);
-        return res.status(500).send('خطا در ارسال پیامک');
-    }
+    res.json({
+      result: result,
+      data: savecode,
+      massage: "Done successfully",
+    });
+  } catch (err) {
+    console.error('خطا در ارسال پیامک یا ذخیره‌سازی کد:', err);
+    return res.status(500).send('خطا در ارسال پیامک یا ذخیره‌سازی کد');
+  }
 };
-
-
-
