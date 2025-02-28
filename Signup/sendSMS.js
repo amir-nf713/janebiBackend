@@ -3,12 +3,9 @@ const mongoose = require('mongoose');
 
 const wsdlUrl = 'http://87.248.137.75/webservice/send.php?wsdl';
 
-mongoose.connect('mongodb://mongodb:27017/Savecode', {
-  serverSelectionTimeoutMS: 600000,  // افزایش تایم‌اوت انتخاب سرور به ۱۰ دقیقه
-  socketTimeoutMS: 600000,          // افزایش تایم‌اوت سوکت به ۱۰ دقیقه
-})
-  .then(() => console.log("connected to savecode"))
-  .catch(err => console.log("can't connect to savecode:", err));
+mongoose.connect('mongodb://localhost:27017/Savecode', { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB', err));
 
 const seveCode = new mongoose.Schema({
   number: String,
@@ -38,7 +35,7 @@ exports.sendSMS = async (req, res) => {
     password: "2981228935"
   };
 
-
+  try {
     // ایجاد کلاینت SOAP
     const client = await soap.createClientAsync(wsdlUrl);
 
@@ -59,5 +56,8 @@ exports.sendSMS = async (req, res) => {
       data: savecode,
       massage: "Done successfully",
     });
-
+  } catch (err) {
+    console.error('خطا در ارسال پیامک یا ذخیره‌سازی کد:', err);
+    return res.status(500).send('خطا در ارسال پیامک یا ذخیره‌سازی کد');
+  }
 };

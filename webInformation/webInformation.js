@@ -3,11 +3,9 @@ const mongoose = require('mongoose')
 
 
 
-mongoose
-   .connect("mongodb://mongodb:27017/Savecode")
-   .then(()=> console.log("connected to Webinformation"))
-   .catch(()=> console.log("cant connected to Webinformation"))
-
+mongoose.connect('mongodb://localhost:27017/Savecode', { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB', err));
 
 
 const web = new mongoose.Schema({
