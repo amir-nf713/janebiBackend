@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const wsdlUrl = 'http://87.248.137.75/webservice/send.php?wsdl';
 
-mongoose.connect('mongodb://172.17.0.3:27017/Savecode', {
+mongoose.connect('mongodb://mongodb:27017/Savecode', {
   serverSelectionTimeoutMS: 600000,  // افزایش تایم‌اوت انتخاب سرور به ۱۰ دقیقه
   socketTimeoutMS: 600000,          // افزایش تایم‌اوت سوکت به ۱۰ دقیقه
 })

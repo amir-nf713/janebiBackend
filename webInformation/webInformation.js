@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 
 mongoose
-   .connect("mongodb://localhost:27017/Savecode")
+   .connect("mongodb://mongodb:27017/Savecode")
    .then(()=> console.log("connected to Webinformation"))
    .catch(()=> console.log("cant connected to Webinformation"))
 
