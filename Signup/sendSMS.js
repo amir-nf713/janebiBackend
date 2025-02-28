@@ -38,7 +38,7 @@ exports.sendSMS = async (req, res) => {
     password: "2981228935"
   };
 
-  try {
+
     // ایجاد کلاینت SOAP
     const client = await soap.createClientAsync(wsdlUrl);
 
@@ -59,8 +59,5 @@ exports.sendSMS = async (req, res) => {
       data: savecode,
       massage: "Done successfully",
     });
-  } catch (err) {
-    console.error('خطا در ارسال پیامک یا ذخیره‌سازی کد:', err);
-    return res.status(500).send('خطا در ارسال پیامک یا ذخیره‌سازی کد');
-  }
+
 };
