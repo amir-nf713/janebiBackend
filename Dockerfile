@@ -1,18 +1,18 @@
-# Use official Node.js image
-FROM node:18-alpine
+# از Node.js استفاده می‌کنیم
+FROM node:16
 
-# Set working directory
+# تنظیم دایرکتوری کاری
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json ./
+# کپی کردن package.json و نصب وابستگی‌ها
+COPY package*.json ./
 RUN npm install
 
-# Copy all project files
+# کپی کردن تمام فایل‌ها به داخل کانتینر
 COPY . .
 
-# Expose port for Express server
+# پورت 3001 را برای بک‌اند باز می‌کنیم
 EXPOSE 3001
 
-# Start the Express application
+# اجرای اپلیکیشن
 CMD ["npm", "start"]
