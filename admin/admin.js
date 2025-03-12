@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const { default: apiKey } = require('../mongo');
 
 // اتصال به MongoDB با استفاده از گزینه‌های جدید
-mongoose.connect('mongodb://mongodb:27017/Savecode', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb://${apiKey.db}/Savecode`, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB', err));
 
