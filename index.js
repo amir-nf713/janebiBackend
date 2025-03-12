@@ -8,7 +8,7 @@ app.use(bodyParser.json({ limit: '10mb' })); // اینجا حجم درخواست
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
  
 
-const allowedOrigins = ['http://janebi-speed.ir', 'https://janebi-speed.ir'];
+const allowedOrigins = ['*']; //http://janebi-speed.ir', 'https://janebi-speed.ir
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
