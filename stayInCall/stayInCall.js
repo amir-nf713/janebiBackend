@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { db } = require('../mongo');  // وارد کردن apiKey.db از فایل mongo.js
 
 
-mongoose.connect(`mongodb://${db}/Savecode`, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb://${db}/Savecode`)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB', err));
 
