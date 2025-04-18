@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
-const jalaali = require("jalaali-js")
-const { toJalaali } = require('jalaali-js');
-const { db } = require('../mongo');  // وارد کردن apiKey.db از فایل mongo.js
+const jalaali = require("jalaali-js");
+const { toJalaali } = require("jalaali-js");
+const { db } = require("../mongo"); // وارد کردن apiKey.db از فایل mongo.js
 
-mongoose.connect(`mongodb://${db}/Savecode`)
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('Could not connect to MongoDB', err));
-
-
+mongoose
+  .connect(`mongodb://${db}/Savecode`)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Could not connect to MongoDB", err));
 
 const basket = new mongoose.Schema({
-  value: {type : Array, default: []} ,
-  vazeiat: String ,
+  value: { type: Array, default: [] },
+  vazeiat: String,
   name: String,
   shahr: String,
   ostan: String,
@@ -21,45 +20,53 @@ const basket = new mongoose.Schema({
   shenase: Number,
   date: String,
   userId: String,
-  money: Number
+  money: Number,
 });
 
 const Basket = mongoose.model("basket", basket);
 
-
-exports.getOneBasket = async (req,res) => {
+exports.getOneBasket = async (req, res) => {
   try {
-
-    const _id = req.params.id
-    const basket = await Basket.findOne({_id})
+    const _id = req.params.id;
+    const basket = await Basket.findOne({ _id });
     if (!basket) {
-      return res.json({ message : "basket not found"})
-     }
+      return res.json({ message: "basket not found" });
+    }
     res.json({
-      data: basket
-    })
+      data: basket,
+    });
   } catch (error) {
     res.json({
       massage: "you have err",
     });
   }
-}
+};
 
-exports.getBasket = async (req,res) => {
+exports.getBasket = async (req, res) => {
   try {
     res.json({
-      data: await Basket.find()
-    })
+      data: await Basket.find(),
+    });
   } catch (error) {
     res.json({
       massage: "you have err",
     });
   }
-}
+};
 
-exports.postBasket = async (req,res) => {
+exports.postBasket = async (req, res) => {
   try {
-    const { value, name, shahr, ostan, phoneNumber, address, postCode, userId, money } = req.body;
+    const {
+      value,
+      name,
+      shahr,
+      ostan,
+      phoneNumber,
+      address,
+      postCode,
+      userId,
+      money,
+    } = req.body;
 
     // console.log("Request Body:", req.body);
 
@@ -67,26 +74,29 @@ exports.postBasket = async (req,res) => {
     // if (!value || !name || !shahr || !ostan || !phoneNumber || !address || !postCode || !userId || !money) {
     //   return res.status(400).json({ message: "تمامی فیلدها باید پر شوند." });
     // }
-    
 
     // دریافت تاریخ شمسی
     let today = new Date();
-    let jalaaliDate = toJalaali(today.getFullYear(), today.getMonth() + 1, today.getDate()); // تبدیل تاریخ میلادی به شمسی
+    let jalaaliDate = toJalaali(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      today.getDate()
+    ); // تبدیل تاریخ میلادی به شمسی
 
     // ایجاد سند جدید سبد خرید
     const newBasket = new Basket({
-      value: value,  // می‌توانید مقدار پیش‌فرض برای این فیلد اضافه کنید
-      vazeiat: "در حال انجام", 
+      value: value, // می‌توانید مقدار پیش‌فرض برای این فیلد اضافه کنید
+      vazeiat: "در حال انجام",
       name: name,
       shahr: shahr,
       ostan: ostan,
       phoneNumber: phoneNumber,
       address: address,
       postCode: postCode,
-      shenase: await Basket.countDocuments() + 6876,
+      shenase: (await Basket.countDocuments()) + 6876,
       date: `${jalaaliDate.jy}-${jalaaliDate.jm}-${jalaaliDate.jd}`, // تاریخ به فرمت YYYY-MM-DD
       userId: userId,
-      money: money
+      money: money,
     });
 
     // ذخیره سبد خرید
@@ -95,47 +105,37 @@ exports.postBasket = async (req,res) => {
     // ارسال پاسخ موفقیت‌آمیز
     res.json({
       message: "سبد خرید با موفقیت اضافه شد.",
-      data: result
+      data: result,
     });
-
   } catch (error) {
     res.json({
-      massage: "you have err:" + error ,
+      massage: "you have err:" + error,
     });
   }
-}
+};
 
-
-exports.putBasket = async (req,res) => {
+exports.putBasket = async (req, res) => {
   try {
-   const shenase = req.params.shenase
+    const shenase = req.params.shenase;
 
-   const findBasket = await Basket.findOne({ shenase })
-   if (!findBasket) {
-    return res.json({message: "cant find Basket"})
-   }
+    const findBasket = await Basket.findOne({ shenase });
+    if (!findBasket) {
+      return res.json({ message: "cant find Basket" });
+    }
 
-   const updatedData = req.body;
-   const Id = findBasket._id;
+    const updatedData = req.body;
+    const Id = findBasket._id;
 
-   const update = await Basket.findByIdAndUpdate(
-     Id,
-     { $set: updatedData },
-     { new: true }
-   );
+    const update = await Basket.findByIdAndUpdate(
+      Id,
+      { $set: updatedData },
+      { new: true }
+    );
 
-   res.json({ update });
-
-
-
-
-
+    res.json({ update });
   } catch (error) {
     res.json({
       massage: "you have err" + error,
     });
   }
-}
-
-
-
+};

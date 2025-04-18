@@ -17,6 +17,7 @@ const kala = new mongoose.Schema({
    photo: String,
    smallTozih: { type: Array, default: [] }, // اصلاح: به صورت آرایه ذخیره می‌شود
    devaiceOK: { type: Array, default: [] },
+   mojodi: { type: Array, default: [] },
    garanti: String,
    star: Number,
    nazarat: { type: Array, default: [] },
@@ -85,11 +86,11 @@ exports.getonekala = async (req, res) => {
 
 exports.postkala = async (req, res) => {
     try {
-        const { onvan, categori, berand, color, money, offer, tozih, photo, smallTozih, devaiceOK, garanti, tagSearch } = req.body;
+        const { onvan, categori, berand, color, money, offer, tozih, photo, smallTozih, devaiceOK, garanti, tagSearch, mojodi } = req.body;
 
         // console.log(onvan, categori, berand, color, money, offer, tozih, photo, smallTozih, devaiceOK, garanti, tagSearch);
 
-        if (!onvan || !categori || !berand || !color || !money || !offer || !tozih || !photo || !smallTozih || !devaiceOK || !garanti || !tagSearch) {
+        if (!onvan || !categori || !berand || !color || !money || !offer || !tozih || !photo || !smallTozih || !devaiceOK || !garanti || !tagSearch || !mojodi) {
             return res.json({ massage: "data cant empty" });
         }
 
@@ -107,6 +108,7 @@ exports.postkala = async (req, res) => {
             photo: photo,
             smallTozih: formattedSmallTozih, // ارسال به صورت آرایه
             devaiceOK: devaiceOK,
+            mojodi:  mojodi,
             garanti: garanti,
             star: 5,
             nazarat: [],
