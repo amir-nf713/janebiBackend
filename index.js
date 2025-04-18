@@ -3,7 +3,12 @@ const { default: axios } = require('axios')
 const bodyParser = require('body-parser');
 const app = express()
 const cors = require('cors');
-app.use(cors());
+app.use(cors({
+  origin: 'https://janebi-speed.ir',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // اگه نیاز داری کوکی یا توکن بفرستی
+}));
+
 
 
 // تنظیم حجم محدودیت درخواست
