@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
  
 app.set('trust proxy', true);
 
-const allowedOrigins = ['http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir']; // فقط دامنه‌های معتبر
+const allowedOrigins = ['http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir', 'http://localhost:3000']; // فقط دامنه‌های معتبر
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
