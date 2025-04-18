@@ -14,7 +14,7 @@ const allowedOrigins = ['*']; // فقط دامنه‌های معتبر
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
-        res.setHeader("Access-Control-Allow-Origin", origin); // اجازه دسترسی به دامنه‌های مشخص شده
+        res.setHeader("Access-Control-Allow-Origin", "*"); // اجازه دسترسی به دامنه‌های مشخص شده
     }
     res.setHeader("Access-Control-Allow-Credentials", "true");
     res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
