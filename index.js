@@ -2,6 +2,9 @@ const express = require('express');
 const { default: axios } = require('axios')
 const bodyParser = require('body-parser');
 const app = express()
+const cors = require('cors');
+app.use(cors());
+
 
 // تنظیم حجم محدودیت درخواست
 app.use(bodyParser.json({ limit: '10mb' })); // اینجا حجم درخواست را به 10MB تنظیم می‌کنیم.
