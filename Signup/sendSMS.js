@@ -29,8 +29,6 @@ exports.sendSMS = async (req, res) => {
     toNum: [number],
     content: `اسپیدی عزیز خوش آمدی
       کد ورود شما : ${randomCode}
-
-      https://janebi-speed.ir
       لغو11
     `,
     type: "1",
