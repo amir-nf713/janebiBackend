@@ -4,7 +4,7 @@ const { toJalaali } = require("jalaali-js");
 const { db } = require("../mongo"); // وارد کردن apiKey.db از فایل mongo.js
 
 mongoose
-  .connect(`mongodb://${db}/Savecode`)
+  .connect(`mongodb://${db}/Savecode?authSource=admin`)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 

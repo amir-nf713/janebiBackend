@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { db } = require('../mongo');  // وارد کردن apiKey.db از فایل mongo.js
 
 // اتصال به MongoDB با استفاده از گزینه‌های جدید
-mongoose.connect(`mongodb://${db}/Savecode`)
+mongoose.connect(`mongodb://${db}/Savecode?authSource=admin`)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB', err));
 
