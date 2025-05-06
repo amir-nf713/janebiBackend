@@ -1,9 +1,21 @@
 const mongoose = require("mongoose");
-const { db } = require('../mongo');  // وارد کردن apiKey.db از فایل mongo.js
+const { username, password, host, port } = require('../mongo');
 
-mongoose.connect(`mongodb://${db}/Savecode?authSource=admin`)
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('Could not connect to MongoDB', err));
+// URL-Encode برای کاراکترهای خاص
+const encodedUsername = encodeURIComponent(username);
+const encodedPassword = encodeURIComponent(password);
+
+const uri = `mongodb://${encodedUsername}:${encodedPassword}@${host}:${port}/Savecode?authSource=admin`;
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('✅ Connected to MongoDB');
+}).catch(err => {
+  console.error('❌ Could not connect to MongoDB:', err.message);
+});
+
 const offercode = new mongoose.Schema({
   code: String,
   money: Number,

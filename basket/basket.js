@@ -1,12 +1,22 @@
 const mongoose = require("mongoose");
 const jalaali = require("jalaali-js");
 const { toJalaali } = require("jalaali-js");
-const { db } = require("../mongo"); // وارد کردن apiKey.db از فایل mongo.js
+const { username, password, host, port } = require('../mongo');
 
-mongoose
-  .connect(`mongodb://${db}/Savecode?authSource=admin`)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Could not connect to MongoDB", err));
+// URL-Encode برای کاراکترهای خاص
+const encodedUsername = encodeURIComponent(username);
+const encodedPassword = encodeURIComponent(password);
+
+const uri = `mongodb://${encodedUsername}:${encodedPassword}@${host}:${port}/Savecode?authSource=admin`;
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('✅ Connected to MongoDB');
+}).catch(err => {
+  console.error('❌ Could not connect to MongoDB:', err.message);
+});
 
 const basket = new mongoose.Schema({
   value: { type: Array, default: [] },
