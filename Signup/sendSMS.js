@@ -39,7 +39,7 @@ exports.sendSMS = async (req, res) => {
   }
 
   const sendSmsInformation = {
-    formNum: "9981801159",
+    formNum: "9981802432",
     toNum: [number],
     content: `اسپیدی عزیز خوش آمدی
       کد ورود شما : ${randomCode}
