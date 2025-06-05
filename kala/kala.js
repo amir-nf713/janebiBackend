@@ -158,7 +158,7 @@ exports.putkala = async (req, res) => {
         res.json({ update });
     } catch (error) {
         res.json({
-            massage: "you have err",
+            massage: "you  err",
         });
     }
 };
