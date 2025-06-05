@@ -90,7 +90,7 @@ exports.getonekala = async (req, res) => {
         });
     } catch (error) {
         res.json({
-            massage: "you have err",
+            massage: "you  err",
         });
     }
 };
