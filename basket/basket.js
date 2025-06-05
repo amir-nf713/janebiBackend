@@ -42,6 +42,9 @@ const Basket = mongoose.model("basket", basket);
 const MERCHANT_ID = "1d4d1c16-4308-4dd9-ae32-bd6eb2f5d86f"; // مرچنت زرین‌پال خودت
 const CALLBACK_URL = "https://janebi-speed.ir/api/basket/verify";
 
+
+let valuee = [];
+
 exports.pay = async (req, res) => {
   const {
     amount,
@@ -79,27 +82,27 @@ exports.pay = async (req, res) => {
 
   try {
 
-    console.log(value);
+    valuee = value
     
-    // const response = await axios.post(
-    //   "https://api.zarinpal.com/pg/v4/payment/request.json",
-    //   {
-    //     merchant_id: MERCHANT_ID,
-    //     amount: price,
-    //     callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&value=${value}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&date=${date}&money=${money}`,
-    //     description: "خرید از فروشگاه جانبی‌اسپید",
-    //   }
-    // );
+    const response = await axios.post(
+      "https://api.zarinpal.com/pg/v4/payment/request.json",
+      {
+        merchant_id: MERCHANT_ID,
+        amount: price,
+        callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&date=${date}&money=${money}`,
+        description: "خرید از فروشگاه جانبی‌اسپید",
+      }
+    );
 
-    // const { code, message, authority } = response.data.data;
+    const { code, message, authority } = response.data.data;
 
-    // if (code === 100) {
-    //   return res.json({
-    //     url: `https://www.zarinpal.com/pg/StartPay/${authority}`,
-    //   });
-    // } else {
-    //   return res.status(400).json({ error: message || "خطای درخواست پرداخت" });
-    // }
+    if (code === 100) {
+      return res.json({
+        url: `https://www.zarinpal.com/pg/StartPay/${authority}`,
+      });
+    } else {
+      return res.status(400).json({ error: message || "خطای درخواست پرداخت" });
+    }
   } catch (error) {
     console.error(
       "خطا در پرداخت زرین‌پال:",
@@ -114,7 +117,6 @@ exports.verify = async (req, res) => {
     Authority,
     Status,
     amount,
-    value,
 
     name,
     shahr,
@@ -133,7 +135,6 @@ exports.verify = async (req, res) => {
     !Status ||
     !amount ||
     !userId ||
-    !value ||
     !name ||
     !shahr ||
     !ostan ||
@@ -167,7 +168,7 @@ exports.verify = async (req, res) => {
 
       // ثبت دوره برای کاربر
       const NewBascket = new Basket({
-        value,
+        value: valuee,
         vazeiat: "در حال بررسی",
         name,
         shahr,
@@ -186,7 +187,7 @@ exports.verify = async (req, res) => {
       const res = await axios.get(`https://janebi-speed.ir/api/Kala/`);
       const items = res.data.data;
 
-      for (const elementa of value) {
+      for (const elementa of valuee) {
         const item = items.find(el => el._id === elementa.id);
         if (!item) continue;
 
