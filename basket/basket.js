@@ -39,11 +39,19 @@ const basket = new mongoose.Schema({
 
 const Basket = mongoose.model("basket", basket);
 
+const tempPaySchema = new mongoose.Schema({
+  authority: String,
+  value: Array,
+  createdAt: { type: Date, default: Date.now, expires: 600 }, // بعد از 10 دقیقه حذف شود
+});
+const TempPay = mongoose.model("TempPay", tempPaySchema);
+
+
 const MERCHANT_ID = "1d4d1c16-4308-4dd9-ae32-bd6eb2f5d86f"; // مرچنت زرین‌پال خودت
 const CALLBACK_URL = "https://janebi-speed.ir/api/basket/verify";
 
 
-let valuee = [];
+
 
 exports.pay = async (req, res) => {
   const {
@@ -82,7 +90,7 @@ exports.pay = async (req, res) => {
 
   try {
 
-    valuee = value
+    
     
     const response = await axios.post(
       "https://api.zarinpal.com/pg/v4/payment/request.json",
@@ -97,10 +105,11 @@ exports.pay = async (req, res) => {
     const { code, message, authority } = response.data.data;
 
     if (code === 100) {
+      await TempPay.create({ authority, value }); // ذخیره value با authority
       return res.json({
         url: `https://www.zarinpal.com/pg/StartPay/${authority}`,
       });
-    } else {
+    }else {
       return res.status(400).json({ error: message || "خطای درخواست پرداخت" });
     }
   } catch (error) {
@@ -152,6 +161,16 @@ exports.verify = async (req, res) => {
   }
 
   try {
+
+    const tempPay = await TempPay.findOne({ authority: Authority });
+if (!tempPay) return res.status(400).send("اطلاعات سفارش یافت نشد");
+
+const value = tempPay.value;
+
+// بعد از استفاده حذفش کن:
+
+
+
     const response = await axios.post(
       "https://api.zarinpal.com/pg/v4/payment/verify.json",
       {
@@ -168,7 +187,7 @@ exports.verify = async (req, res) => {
 
       // ثبت دوره برای کاربر
       const NewBascket = new Basket({
-        value: valuee,
+        value,
         vazeiat: "در حال بررسی",
         name,
         shahr,
@@ -184,12 +203,12 @@ exports.verify = async (req, res) => {
 
       await NewBascket.save();
 
-      const res = await axios.get(`https://janebi-speed.ir/api/Kala/`);
-      const items = res.data.data;
-
-      for (const elementa of valuee) {
+      const kalares = await axios.get(`https://janebi-speed.ir/api/Kala/`);
+      const items = kalares.data.data;
+      
+      for (const elementa of value) {
         const item = items.find(el => el._id === elementa.id);
-        console.log(item);
+        
         
         if (!item) continue;
 
@@ -217,6 +236,8 @@ exports.verify = async (req, res) => {
         number : `${phoneNumber}`,
         name : `${name}`
       })
+
+      await TempPay.deleteOne({ authority: Authority });
 
       return res.redirect(`https://janebi-speed.ir/UserPannle/byok?refId=${ref_id}&amount=${money}`);
 
