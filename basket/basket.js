@@ -78,25 +78,28 @@ exports.pay = async (req, res) => {
   const price = Number(amount * 10); // تبدیل تومان به ریال
 
   try {
-    const response = await axios.post(
-      "https://api.zarinpal.com/pg/v4/payment/request.json",
-      {
-        merchant_id: MERCHANT_ID,
-        amount: price,
-        callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&value=${value}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&date=${date}&money=${money}`,
-        description: "خرید از فروشگاه جانبی‌اسپید",
-      }
-    );
 
-    const { code, message, authority } = response.data.data;
+    console.log(value);
+    
+    // const response = await axios.post(
+    //   "https://api.zarinpal.com/pg/v4/payment/request.json",
+    //   {
+    //     merchant_id: MERCHANT_ID,
+    //     amount: price,
+    //     callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&value=${value}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&date=${date}&money=${money}`,
+    //     description: "خرید از فروشگاه جانبی‌اسپید",
+    //   }
+    // );
 
-    if (code === 100) {
-      return res.json({
-        url: `https://www.zarinpal.com/pg/StartPay/${authority}`,
-      });
-    } else {
-      return res.status(400).json({ error: message || "خطای درخواست پرداخت" });
-    }
+    // const { code, message, authority } = response.data.data;
+
+    // if (code === 100) {
+    //   return res.json({
+    //     url: `https://www.zarinpal.com/pg/StartPay/${authority}`,
+    //   });
+    // } else {
+    //   return res.status(400).json({ error: message || "خطای درخواست پرداخت" });
+    // }
   } catch (error) {
     console.error(
       "خطا در پرداخت زرین‌پال:",
@@ -199,6 +202,8 @@ exports.verify = async (req, res) => {
         const updatedDevaiceOK = item.devaiceOK.map(d =>
           d.name === devaiceOk.name ? { ...d, mojodi: updatedMojodi } : d
         );
+
+      //  https://janebi-speed.ir/api/basket/verify?amount=8000&userId=6835c36d8e36bfc7bb0a4a7d&value=[object%20Object]&name=amirreza%20naddaf&shahr=adchc&ostan=fars&phoneNumber=09336230914&address=egr%20tgrtgert%20ert%20hert%20her%20her%20ter%20t&postCode=1234567890&date=1749096231586&money=800&Authority=A000000000000000000000000000l32l2n75&Status=OK
 
         await axios.put(`https://janebi-speed.ir/api/Kala/${item._id}`, {
           devaiceOK: updatedDevaiceOK,
