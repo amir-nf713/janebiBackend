@@ -254,18 +254,18 @@ exports.getOneBasket = async (req, res) => {
   try {
     const _id = req.params.id;
     const basket = await Basket.findOne({ _id });
+
     if (!basket) {
-      return res.json({ message: "basket not found" });
+      return res.status(404).json({ message: "Basket not found" });
     }
-    res.json({
-      data: basket,
-    });
+
+    res.status(200).json({ data: basket });
   } catch (error) {
-    res.json({
-      massage: "you  err",
-    });
+    console.error("Error in getOneBasket:", error);
+    res.status(500).json({ message: "An error occurred while retrieving the basket." });
   }
 };
+
 
 exports.getBasket = async (req, res) => {
   try {
