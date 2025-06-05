@@ -73,7 +73,7 @@ exports.getkala = async (req, res) => {
         });
     } catch (error) {
         res.json({
-            massage: "you  err",
+            massage: "you ee err",
         });
     }
 };
