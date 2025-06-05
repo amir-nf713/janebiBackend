@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express()
 const cors = require('cors');
 app.use(cors({
-  origin: ['http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir', 'http://localhost:3000'],
+  origin: ['*' , 'http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true // اگه نیاز داری کوکی یا توکن بفرستی
 }));
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
  
 app.set('trust proxy', true);
 
-const allowedOrigins = ['http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir', 'http://localhost:3000']; // فقط دامنه‌های معتبر
+const allowedOrigins = ['*' , 'http://janebi-speed.ir', 'https://janebi-speed.ir', 'http://www.janebi-speed.ir', 'https://www.janebi-speed.ir', 'http://localhost:3000']; // فقط دامنه‌های معتبر
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;

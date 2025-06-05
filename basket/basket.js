@@ -262,7 +262,7 @@ exports.getOneBasket = async (req, res) => {
     });
   } catch (error) {
     res.json({
-      massage: "you have err",
+      massage: "you  err",
     });
   }
 };
@@ -274,7 +274,7 @@ exports.getBasket = async (req, res) => {
     });
   } catch (error) {
     res.json({
-      massage: "you have err",
+      massage: "you  err",
     });
   }
 };
@@ -334,7 +334,7 @@ exports.postBasket = async (req, res) => {
     });
   } catch (error) {
     res.json({
-      massage: "you have err:" + error,
+      massage: "you  err:" + error,
     });
   }
 };
@@ -360,7 +360,7 @@ exports.putBasket = async (req, res) => {
     res.json({ update });
   } catch (error) {
     res.json({
-      massage: "you have err" + error,
+      massage: "you  err" + error,
     });
   }
 };
