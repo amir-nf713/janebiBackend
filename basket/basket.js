@@ -180,7 +180,7 @@ exports.verify = async (req, res) => {
 
       await NewBascket.save();
 
-      const res = await axios.get(`https://janebi-speed.ir/api/Kala`);
+      const res = await axios.get(`https://janebi-speed.ir/api/Kala/`);
       const items = res.data.data;
 
       for (const elementa of value) {
