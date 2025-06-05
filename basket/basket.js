@@ -250,7 +250,6 @@ const value = tempPay.value;
   }
 };
 
-const mongoose = require("mongoose");
 
 exports.getOneBasket = async (req, res) => {
   try {
