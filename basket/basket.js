@@ -254,7 +254,7 @@ const value = tempPay.value;
 exports.getOneBasket = async (req, res) => {
   try {
     const _id = req.params.id;
-    console.log(_id);
+    console.log(_id,'gfhjkl ');
     
 
     // بررسی اعتبار ObjectId
