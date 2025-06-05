@@ -250,10 +250,20 @@ const value = tempPay.value;
   }
 };
 
+const mongoose = require("mongoose");
+
 exports.getOneBasket = async (req, res) => {
   try {
     const _id = req.params.id;
-    const basket = await Basket.findOne({ _id });
+    console.log(_id);
+    
+
+    // بررسی اعتبار ObjectId
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(400).json({ message: "Invalid basket ID format" });
+    }
+
+    const basket = await Basket.findById(_id); // یا findOne({ _id })
 
     if (!basket) {
       return res.status(404).json({ message: "Basket not found" });
@@ -265,6 +275,7 @@ exports.getOneBasket = async (req, res) => {
     res.status(500).json({ message: "An error occurred while retrieving the basket." });
   }
 };
+
 
 
 exports.getBasket = async (req, res) => {
