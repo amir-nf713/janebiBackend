@@ -189,6 +189,8 @@ exports.verify = async (req, res) => {
 
       for (const elementa of valuee) {
         const item = items.find(el => el._id === elementa.id);
+        console.log(item);
+        
         if (!item) continue;
 
         const colorIndex = item.color.findIndex(c => c === elementa.color);
