@@ -125,3 +125,51 @@ www.janebi-speed.ir
     return res.status(500).send("خطا در ارسال پیامک یا ذخیره‌سازی کد");
   }
 };
+
+
+exports.sendSMSbycode = async (req, res) => {
+  
+  const { number , code} = req.body;
+
+  
+
+  const sendSmsInformation = {
+    formNum: "9981802432",
+    toNum: [number],
+    content: `با سلام
+سفارش شما درحال ارسال میباشد
+کد رهگیری:
+${code}
+
+برای مشاهده وضعیت سفارش خود در سامانه رهگیری مرسولات پستی کد بالا را جستجو کنید
+
+www.janebi-speed.ir
+لغو11
+    `,
+    type: "1",
+    username: "alirezamahmooudi94",
+    password: "2981228935",
+  };
+
+  try {
+    // ایجاد کلاینت SOAP
+    const client = await soap.createClientAsync(wsdlUrl);
+
+    // فراخوانی متد SendSMS
+    const result = await client.SendSMSAsync(sendSmsInformation);
+
+    // ذخیره‌سازی کد در MongoDB
+    
+   
+    
+    
+
+    res.json({
+      result: result,
+      massage: "Done successfully",
+    });
+  } catch (err) {
+    console.error("خطا در ارسال پیامک یا ذخیره‌سازی کد:", err);
+    return res.status(500).send("خطا در ارسال پیامک یا ذخیره‌سازی کد");
+  }
+};
