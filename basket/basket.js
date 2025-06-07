@@ -32,7 +32,7 @@ const basket = new mongoose.Schema({
   address: String,
   postCode: String,
   shenase: Number,
-  date: String,
+  date: {type: Date, default: Date.now()},
   userId: String,
   money: Number,
 });
@@ -66,7 +66,7 @@ exports.pay = async (req, res) => {
     address,
     postCode,
 
-    date,
+   
     money,
   } = req.body;
 
@@ -80,7 +80,7 @@ exports.pay = async (req, res) => {
     !phoneNumber ||
     !address ||
     !postCode ||
-    !date ||
+   
     !money
   ) {
     return res.status(400).json({ error: "اطلاعات ناقص است" });
@@ -97,7 +97,7 @@ exports.pay = async (req, res) => {
       {
         merchant_id: MERCHANT_ID,
         amount: price,
-        callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&date=${date}&money=${money}`,
+        callback_url: `${CALLBACK_URL}?amount=${price}&userId=${userId}&name=${name}&shahr=${shahr}&ostan=${ostan}&phoneNumber=${phoneNumber}&address=${address}&postCode=${postCode}&&money=${money}`,
         description: "خرید از فروشگاه جانبی‌اسپید",
       }
     );
@@ -134,7 +134,7 @@ exports.verify = async (req, res) => {
     address,
     postCode,
 
-    date,
+   
     userId,
     money,
   } = req.query;
@@ -150,7 +150,7 @@ exports.verify = async (req, res) => {
     !phoneNumber ||
     !address ||
     !postCode ||
-    !date ||
+    
     !money
   ) {
     return res.status(400).send("اطلاعات ناقص است");
@@ -196,7 +196,7 @@ const value = tempPay.value;
         address,
         postCode,
         shenase: ref_id,
-        date,
+      
         userId,
         money,
       });
